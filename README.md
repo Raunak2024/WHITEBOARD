@@ -1,8 +1,6 @@
 # whiteboard
 This is a lightweight NodeJS collaborative Whiteboard/Sketchboard witch can easily be customized...
 
-![start](https://raw.githubusercontent.com/cracker0dks/whiteboard/master/doc/start.png)
-
 ## Some Features
 * Showing remote user cursors while drawing
 * Undo function for each user (strg+z as well)
@@ -15,35 +13,12 @@ This is a lightweight NodeJS collaborative Whiteboard/Sketchboard witch can easi
 * Working on PC, Tablet & Mobile
 
 ## Install the App
-You can run this app with and without docker
-### Without Docker
+
 1. install the latest NodeJs
 2. Clone the app
 3. Run `npm i` inside the folder
 4. Run `node server.js`
 5. Surf to http://YOURIP:8080
-
-### With Docker
-1. `docker run -d -p 8080:8080 rofl256/whiteboard`
-2. Surf to http://YOURIP:8080
-
-### With Helm
-#### Locally
-1. `helm install --name whiteboard ./helm/whiteboard/ -f ./helm/whiteboard/values.yaml`
-
-#### Push to an s3 bucket and add as a helm repo (such as minio)
-1. create a minio bucket
-2. package the helm chart 
-    ```helm package ./helm/whiteboard```
-3. create an index file with the path to your helm repo included so that all charts get the base url
-    ```
-    helm repo index . --url https://location.of/bucket
-    ```
-4. move packaged helm chart (ex whiteboard-0.0.1.tgz) and index.yaml file to s3 bucket
-5. add your bucket with 
-    ```helm repo add whiteboard https://location.of/bucket```
-6. helm install from bucket with 
-    ```helm install whiteboard/whiteboard --name whiteboard```
 
 ## API
 Call your site with GET parameters to change the WhiteboardID or the Username
@@ -58,30 +33,3 @@ Call your site with GET parameters to change the WhiteboardID or the Username
 * Whiteboards are gone if you restart the Server, so keep that in mind (or save your whiteboard)
 * This is just a sample layout to show the functions available
 * You shoud be able to customize without ever toutching the whiteboard.js (take a look at index.html & main.js)
-
-## ToDo
-* Add feedback for errors and things ...
-
-## Nginx Reverse Proxy configuration
-Add this to your server part:
-```
-    location /whiteboard/ {
-        proxy_set_header HOST $host;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection upgrade;
-        proxy_pass http://YOURIP:8080/;
-    }
-```
-To run it at /whiteboard. Don't forget to change -> YOURIP!
-
-## Nextcloud integration
-1. Install this app on your server
-2. Enable and go to "external sites" on your Nextcloud
-2. Add Link to your server: `https://YOURIP/whiteboard/?whiteboardid=WHITEBOARDNAME&username={uid}`
-You can give each group its own whiteboard by changeing the WHITEBOARDNAME in the URL if you want.
-
-Note: You might have to serve the app with https (If your nextcloud server runs https). To do so, its recommend to run this app behind a reverse proxy. (as shown above)
-
-
-___ MIT License ___
